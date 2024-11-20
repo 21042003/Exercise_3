@@ -63,22 +63,48 @@ class techworker extends empLoyee implements Workable {
 //tao class Company
 class Company {
   //quan ly danh sach cac nhan vien
-  List<String> employee = [];
+  List<empLoyee> danhSachNV = [];
 
-  void addemployee() {}
+  void addEmployee(empLoyee nhanVien) {
+    danhSachNV.add(nhanVien);
+    print('Da them nhan vien ${nhanVien.name}');
+  }
 
-  void printAllEmployees() {}
+//in ra tat ca nhan vien trong cong ty
+  void printAllEmployees() {
+    if (danhSachNV.isEmpty) {
+      print('Khong co nhan vien nao');
+    } else {
+      for (var nhanVien in danhSachNV) {
+        nhanVien.printInfo();
+      }
+    }
+  }
+
+  //tinh luong tat ca nhan vien
+  double getTotalSalary() {
+    double tongLuong = 0;
+    for (var nhanVien in danhSachNV) {
+      tongLuong += nhanVien.calculateSalary();
+    }
+    return tongLuong;
+  }
 }
 
 //chuong trinh chinh
 void main() {
+  //tao cong ty
+  var company = Company();
   // tao nhan vien
   var nvVanphong = officeWorker('1234ABC', 'Hai', 'marketing');
   var nvKythuat = techworker('7563BCD', 'Hoang', 'Ky thuat phan mem');
+
+  company.addEmployee(nvVanphong);
+  company.addEmployee(nvKythuat);
   // in nv
-  nvVanphong.printInfo();
-  nvKythuat.printInfo();
   //mo ta cong viec
-  nvVanphong.doWork();
-  nvKythuat.doWork();
+  //in tat ca nhan vien
+  company.printAllEmployees();
+  //tong luong
+  print('tong luong cua cong ty: ${company.getTotalSalary()}');
 }
